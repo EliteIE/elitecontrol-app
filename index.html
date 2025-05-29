@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteControl - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center min-h-screen text-slate-200 p-4">
+
+    <div class="bg-slate-800 p-8 md:p-12 rounded-xl shadow-2xl w-full max-w-md">
+        <div class="text-center mb-8">
+            <i class="fas fa-cubes fa-3x text-sky-500 mb-3"></i>
+            <h1 class="text-3xl font-bold text-sky-400">EliteControl</h1>
+            <p class="text-slate-400">Acesse seu painel de controle</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="mb-6">
+                <label for="email" class="block mb-2 text-sm font-medium text-slate-300">Email</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fas fa-envelope text-slate-500"></i>
+                    </div>
+                    <input type="email" id="email" name="email" class="bg-slate-700 border border-slate-600 text-slate-200 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 p-2.5 placeholder-slate-500" placeholder="seu@email.com" required>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-slate-300">Senha</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fas fa-lock text-slate-500"></i>
+                    </div>
+                    <input type="password" id="password" name="password" class="bg-slate-700 border border-slate-600 text-slate-200 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full pl-10 p-2.5 placeholder-slate-500" placeholder="Sua senha" required>
+                </div>
+            </div>
+
+            <div id="loginErrorMessage" class="text-red-400 text-sm mt-4 text-center mb-4" style="display: none;"></div>
+
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-slate-600 rounded bg-slate-700 focus:ring-3 focus:ring-sky-600">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="remember" class="text-slate-400">Lembrar-me</label>
+                    </div>
+                </div>
+                <a href="#" class="text-sm text-sky-500 hover:underline">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-800 font-medium rounded-lg text-sm px-5 py-3 text-center transition duration-150 ease-in-out">
+                <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+            </button>
+        </form>
+
+        <p class="mt-8 text-sm text-center text-slate-500">
+            Não tem uma conta? <a href="#" class="font-medium text-sky-500 hover:underline">Registre-se</a>
+        </p>
+    </div>
+
+    <script src="js/elitecontrol-data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
