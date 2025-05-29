@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteControl - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'slate': {
+                750: '#2f3b50',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .scrollbar-thin {
+            scrollbar-width: thin;
+            scrollbar-color: #4A5568 #2D3748; /* thumb track */
+        }
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #2D3748;
+            border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: #4A5568;
+            border-radius: 10px;
+            border: 2px solid #2D3748;
+        }
+        .chart-container-reports, .chart-container-ai, .chart-container {
+            position: relative; margin: auto; height: 320px; width: 100%;
+            background-color: #1f2937; padding: 1rem; border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+    </style>
+</head>
+<body id="dashboardPage" class="bg-slate-900 text-slate-200 flex h-screen overflow-hidden">
+
+    <aside id="sidebar" class="bg-slate-800 text-slate-300 w-64 min-h-screen p-4 space-y-6 shadow-xl transition-all duration-300 ease-in-out overflow-y-auto scrollbar-thin md:translate-x-0 -translate-x-full">
+        <div class="text-center py-4 border-b border-slate-700">
+            <i class="fas fa-cubes fa-2x text-sky-500 mb-2"></i>
+            <h1 class="text-2xl font-bold text-sky-400">EliteControl</h1>
+            <p id="userRoleDisplay" class="text-xs text-slate-500 mt-1">Nível de Acesso</p>
+        </div>
+        <nav><ul class="space-y-2" id="navLinks"></ul></nav>
+        <div class="absolute bottom-0 left-0 w-full p-4 border-t border-slate-700 bg-slate-800">
+            <div class="flex items-center mb-3">
+                <img id="userAvatar" src="https://placehold.co/40x40/64748B/E2E8F0?text=U" alt="Avatar do Utilizador" class="w-10 h-10 rounded-full mr-3 border-2 border-slate-600">
+                <div>
+                    <p id="usernameDisplay" class="text-sm font-semibold text-slate-200">Nome do Utilizador</p>
+                    <p class="text-xs text-slate-400">Online</p>
+                </div>
+            </div>
+            <button id="logoutButton" class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center"><i class="fas fa-sign-out-alt mr-2"></i>Sair</button>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto scrollbar-thin">
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 id="pageTitle" class="text-3xl font-semibold text-slate-100">Painel Principal</h2>
+                    <p id="pageSubtitle" class="text-slate-400">Visão geral do seu sistema.</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative" id="notificationBellContainer">
+                        <button id="notificationBellButton" class="text-slate-400 hover:text-sky-400 transition-colors">
+                            <i class="fas fa-bell fa-lg"></i>
+                            <span id="notificationCountBadge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                        </button>
+                        <div id="notificationDropdown" class="hidden scrollbar-thin bg-slate-800 border border-slate-700 rounded-lg shadow-xl absolute top-full right-0 w-80 z-50 max-h-96 overflow-y-auto">
+                            </div>
+                    </div>
+                    <button id="sidebarToggle" class="md:hidden p-2 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </header>
+            <div id="mainDashboardContent" class="space-y-8">
+                <section id="kpiSection">
+                    <h3 class="text-2xl font-semibold text-sky-400 mb-4">Indicadores Chave (KPIs)</h3>
+                    <div id="kpiContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <div class="bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-sky-500/30 transition-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-sky-400">Produtos Ativos</h3>
+                                <i class="fas fa-box-open fa-2x text-slate-500"></i>
+                            </div>
+                            <p id="activeProductsCount" class="text-3xl font-bold text-slate-100">0</p>
+                            <p class="text-sm text-slate-400 mt-1">Total de produtos</p>
+                        </div>
+                         <div class="bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-green-500/30 transition-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-green-400">Vendas Hoje</h3>
+                                <i class="fas fa-dollar-sign fa-2x text-slate-500"></i>
+                            </div>
+                            <p id="todaySalesValue" class="text-3xl font-bold text-slate-100">R$ 0,00</p>
+                            <p class="text-sm text-slate-400 mt-1">Total de vendas hoje</p>
+                        </div>
+                        <div class="bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-amber-500/30 transition-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-amber-400">Alertas Estoque</h3>
+                                <i class="fas fa-exclamation-triangle fa-2x text-slate-500"></i>
+                            </div>
+                            <p id="stockAlertsCount" class="text-3xl font-bold text-slate-100">0</p>
+                            <p class="text-sm text-slate-400 mt-1">Itens com estoque baixo</p>
+                        </div>
+                    </div>
+                </section>
+                <section id="chartsSection">
+                    <h3 class="text-2xl font-semibold text-sky-400 mb-4 mt-8">Gráficos do Dashboard</h3>
+                    <div id="chartsContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        </div>
+                </section>
+                <section id="recentActivitiesSection">
+                    <h3 class="text-2xl font-semibold text-sky-400 mb-4 mt-8">Atividades Recentes</h3>
+                    <div id="recentActivitiesContainer" class="bg-slate-800 p-6 rounded-xl shadow-lg">
+                        <p class="text-slate-500">Nenhuma atividade recente para mostrar.</p>
+                    </div>
+                </section>
+            </div>
+            <div id="dynamicContentArea" class="space-y-6 hidden">
+                </div>
+            <div id="temporaryAlertsContainer" class="fixed top-5 right-5 z-[1050] w-[350px] max-w-[90%]"></div>
+            <div id="modalPlaceholder"></div>
+        </main>
+    <script src="js/elitecontrol-data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
